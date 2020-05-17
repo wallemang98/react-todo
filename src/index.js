@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+//removing index.css
+//import './index.css';
 
 //parent component that wraps everything
 import App from './App';
