@@ -2,30 +2,35 @@ import React, { Component } from 'react';
 
 //our component Todos.js
 import Todos from './components/Todos';
-import Header from './components/layout/Header'
-import AddTodo from './components/AddTodo'
+import Header from './components/layout/Header';
+import AddTodo from './components/AddTodo';
 
 //importing can be used as variables
 //import logo from './logo.svg';
 import './App.css';
+
+//importing uuid from npm i uuid
+//npmjs.com/package/uuid
+const { v4: uuidv4 } = require('uuid');
+
 
 class App extends Component {
 
 state = {
   todos: [
     {
-      id: 1,
+      id: uuidv4(),
       title: 'Take out the trash',
       completed: false
     },
     {
-      id: 2,
+      id: uuidv4(),
       title: 'Dinner with wife',
       //line through
       completed: false
     },
     {
-      id: 3,
+      id: uuidv4(),
       title: 'Meeting with boss',
       completed: false
     }
@@ -48,6 +53,18 @@ state = {
       (todo => todo.id!== id)] });
   }
 
+  //add // TODO:
+  addTodo = (title) => {
+    const newTodo = {
+      id: uuidv4(),
+      //es6 allows title: 'title', shorthand
+      title,
+      completed: false
+    }
+    //newTodo variable
+    this.setState({ todos: [...this.state.todos, newTodo]})
+  }
+
   //render is the only required LIFECYCLE method, renders on browser
   render() {
 
@@ -58,7 +75,7 @@ state = {
     <div className="App">
       <div className="container">
         <Header />
-        <AddTodo />
+        <AddTodo addTodo={this.addTodo }/>
         <Todos todos={this.state.todos}
                 markComplete={ this.markComplete }
                 delTodo={this.delTodo}/>
