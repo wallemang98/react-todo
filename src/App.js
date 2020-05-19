@@ -18,7 +18,7 @@ state = {
     {
       id: 2,
       title: 'Dinner with wife',
-      completed: false
+      completed: true
     },
     {
       id: 3,
