@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+
 //our component Todos.js
 import Todos from './components/Todos';
+import Header from './components/layout/Header'
+import AddTodo from './components/AddTodo'
 
 //importing can be used as variables
 //import logo from './logo.svg';
@@ -41,8 +44,8 @@ state = {
 
 //delete Todo
   delTodo = (id) => {
-    this.setState({ todos: [...this.state.todos.filter(todo => todo.id
-    !== id)] });
+    this.setState({ todos: [...this.state.todos.filter
+      (todo => todo.id!== id)] });
   }
 
   //render is the only required LIFECYCLE method, renders on browser
@@ -53,8 +56,13 @@ state = {
   //console.log(this.state.todos)
   return (
     <div className="App">
-      <Todos todos={this.state.todos} markComplete={ this.markComplete }
-              delTodo={this.delTodo}/>
+      <div className="container">
+        <Header />
+        <AddTodo />
+        <Todos todos={this.state.todos}
+                markComplete={ this.markComplete }
+                delTodo={this.delTodo}/>
+      </div>
     </div>
   );
   }
