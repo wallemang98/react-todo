@@ -28,7 +28,7 @@ state = {
     }
   ]
 }
-
+//toggle complete
   markComplete = (id) => {
     this.setState({ todos: this.state.todos.map(todo => {
         if(todo.id === id) {
@@ -39,6 +39,12 @@ state = {
     }) });
   }
 
+//delete Todo
+  delTodo = (id) => {
+    this.setState({ todos: [...this.state.todos.filter(todo => todo.id
+    !== id)] });
+  }
+
   //render is the only required LIFECYCLE method, renders on browser
   render() {
 
@@ -47,7 +53,8 @@ state = {
   //console.log(this.state.todos)
   return (
     <div className="App">
-      <Todos todos={this.state.todos} markComplete={ this.markComplete } />
+      <Todos todos={this.state.todos} markComplete={ this.markComplete }
+              delTodo={this.delTodo}/>
     </div>
   );
   }
