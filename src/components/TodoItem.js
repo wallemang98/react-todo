@@ -41,7 +41,6 @@ export class TodoItem extends Component {
         <button onClick={this.props.delTodo.bind(this, id)}
           style={btnStyle}>x</button>
 
-
         </p>
       </div>
     )
@@ -50,11 +49,9 @@ export class TodoItem extends Component {
 
 //todos are objects
 TodoItem.propTypes = {
-  todos: PropTypes.object.isRequired
+  todos: PropTypes.object.isRequired,
+  markComplete: PropTypes.func.isRequired,
+  delTodo: PropTypes.func.isRequired
 }
 
-
-
-
-//DONT FORGET TO EXPORT
 export default TodoItem

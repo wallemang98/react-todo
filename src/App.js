@@ -1,41 +1,34 @@
 import React, { Component } from 'react';
 
+//importing can be used as variables
+//import logo from './logo.svg';
+import './App.css';
+//importing our react-router and our about component
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 //our component Todos.js
 import Todos from './components/Todos';
 import Header from './components/layout/Header';
 import AddTodo from './components/AddTodo';
-
-//importing can be used as variables
-//import logo from './logo.svg';
-import './App.css';
+import About from './components/pages/About';
+import axios from 'axios';
 
 //importing uuid from npm i uuid
 //npmjs.com/package/uuid
-const { v4: uuidv4 } = require('uuid');
+//**Json placeholder api removes our need for UUID**
+//const { v4: uuidv4 } = require('uuid');
 
 
 class App extends Component {
 
 state = {
-  todos: [
-    {
-      id: uuidv4(),
-      title: 'Take out the trash',
-      completed: false
-    },
-    {
-      id: uuidv4(),
-      title: 'Dinner with wife',
-      //line through
-      completed: false
-    },
-    {
-      id: uuidv4(),
-      title: 'Meeting with boss',
-      completed: false
-    }
-  ]
+  todos: []
 }
+
+componentDidMount() {
+  axios.get('http://jsonplaceholder.typicode.com/todos?_limit=10')
+    .then(res => this.setState({ todos: res.data }))
+}
+
 //toggle complete
   markComplete = (id) => {
     this.setState({ todos: this.state.todos.map(todo => {
@@ -49,20 +42,18 @@ state = {
 
 //delete Todo
   delTodo = (id) => {
-    this.setState({ todos: [...this.state.todos.filter
-      (todo => todo.id!== id)] });
+    axios.delete('http://jsonplaceholder.typicode.com/todos/${id}')
+    .then(res => this.setState({ todos: [...this.state.todos.filter
+        (todo => todo.id!== id)] }));
   }
 
   //add // TODO:
   addTodo = (title) => {
-    const newTodo = {
-      id: uuidv4(),
-      //es6 allows title: 'title', shorthand
+
+    axios.post('http://jsonplaceholder.typicode.com/todos', {
       title,
       completed: false
-    }
-    //newTodo variable
-    this.setState({ todos: [...this.state.todos, newTodo]})
+    }).then(res => this.setState({ todos: [...this.state.todos, res.data] }));
   }
 
   //render is the only required LIFECYCLE method, renders on browser
@@ -71,16 +62,27 @@ state = {
   //returns JSX
   //we can access state array via this state todos
   //console.log(this.state.todos)
+
+  //Route '/' is considered home, so we need to have our todolist routed here
   return (
-    <div className="App">
-      <div className="container">
-        <Header />
-        <AddTodo addTodo={this.addTodo }/>
-        <Todos todos={this.state.todos}
-                markComplete={ this.markComplete }
-                delTodo={this.delTodo}/>
+    <Router>
+      <div className="App">
+        <div className="container">
+          <Header />
+
+          <Route exact path="/" render={ prop => (
+            <React.Fragment>
+              <AddTodo addTodo={this.addTodo }/>
+              <Todos todos={this.state.todos}
+                      markComplete={ this.markComplete }
+                      delTodo={this.delTodo}/>
+            </React.Fragment>
+          )} />
+
+          <Route path="/about" component={About} />
+        </div>
       </div>
-    </div>
+    </Router>
   );
   }
 }
